@@ -259,7 +259,7 @@ public class LaboonHash {
         int length = blocks.length;
         int strLen = blocks[length-1].length();
         int sizeToPad = 8 - strLen;
-        int modValue = (int)Math.pow(10, sizeToPad);
+        int modValue = (int)Math.pow(16, sizeToPad);
         int modLen = stringSize % modValue;
         String pad = String.format("%0" + sizeToPad + "X", modLen);
         blocks[length-1] += pad;
