@@ -251,9 +251,9 @@ public class LaboonHash {
     }
 
     /**
-     * 
-     * @param blocks
-     * @return
+     * Determines a pad for the last block in the block array
+     * @param blocks block array
+     * @return blocks but now with the last index padded appropriately
      */
     private static String[] pad(String[] blocks) {
         int length = blocks.length;
@@ -266,6 +266,11 @@ public class LaboonHash {
         return blocks;
     } 
 
+    /**
+     * Splits toFind into blocks of size 8 each
+     * @param toFind String to be divided into blocks
+     * @return a string array containing all the blocks created from this string
+     */
     private static String[] getBlocks(String toFind) {
         if(toFind.length() <= 8) {
             String[] block = new String[1];
