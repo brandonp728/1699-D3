@@ -3,7 +3,6 @@ import java.util.*;
 public class LaboonHash {
 
     private static char[] result;
-    private static int stringSize;
     
     ////////////////////////////////////////////////////////////////////////
     //////                                                            //////
@@ -182,7 +181,7 @@ public class LaboonHash {
             System.exit(0);
         }
         String toHash = args[0];
-        stringSize = toHash.length();
+        int stringSize = toHash.length();
         String mode = "nothing";
         try { 
             mode = args[1];
@@ -191,7 +190,7 @@ public class LaboonHash {
         String[] blocks = getBlocks(toHash);
         String lastBlock = blocks[blocks.length-1];
         if(lastBlock.length() < 8) {
-            blocks = pad(blocks);
+            blocks[blocks.length-1] = pad(lastBlock, stringSize);
         }
         if(mode.equalsIgnoreCase("-verbose")) {
             System.out.print("\tPadded string: ");
@@ -233,7 +232,7 @@ public class LaboonHash {
      * Prints the string array of blocks on separate lines
      * @param blocks the array to print
      */
-    private static void printBlocks(String[] blocks) {
+    public static void printBlocks(String[] blocks) {
         for(int i = 0; i < blocks.length; i++) {
             System.out.println("\t" + blocks[i]);
         }
@@ -243,7 +242,7 @@ public class LaboonHash {
      * Prints the string array of blocks as one full string
      * @param blocks the array to print
      */
-    private static void printPaddedString(String[] blocks) {
+    public static void printPaddedString(String[] blocks) {
         for(int i = 0; i < blocks.length; i++) {
             System.out.print(blocks[i]);
         }
@@ -251,19 +250,19 @@ public class LaboonHash {
     }
 
     /**
-     * Determines a pad for the last block in the block array
-     * @param blocks block array
-     * @return blocks but now with the last index padded appropriately
+     * Determines a pad for the passed in block
+     * @param block block to pad
+     * @param stringSize size of the entire input string
+     * @return appropriately padded block
      */
-    private static String[] pad(String[] blocks) {
-        int length = blocks.length;
-        int strLen = blocks[length-1].length();
+    public static String pad(String block, int stringSize) {
+        int strLen = block.length();
         int sizeToPad = 8 - strLen;
         int modValue = (int)Math.pow(16, sizeToPad);
         int modLen = stringSize % modValue;
         String pad = String.format("%0" + sizeToPad + "X", modLen);
-        blocks[length-1] += pad;
-        return blocks;
+        block += pad;
+        return block;
     } 
 
     /**
@@ -271,7 +270,7 @@ public class LaboonHash {
      * @param toFind String to be divided into blocks
      * @return a string array containing all the blocks created from this string
      */
-    private static String[] getBlocks(String toFind) {
+    public static String[] getBlocks(String toFind) {
         if(toFind.length() <= 8) {
             String[] block = new String[1];
             block[0] = toFind;
