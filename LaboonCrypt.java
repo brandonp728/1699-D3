@@ -1,6 +1,16 @@
 import java.util.ArrayList;
 
 public class LaboonCrypt {
+
+    ////////////////////////////////////////////////////////////////////////
+    //////                                                            //////
+    //////                                                            //////
+    //////                                                            //////
+    //////                   Main and Related Methods                 //////
+    //////                                                            //////
+    //////                                                            //////
+    //////                                                            //////
+    ////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
         if(args.length > 3 || args.length < 1) {
             String msg = "Verbosity flag can be omitted for hash output only";
@@ -68,6 +78,12 @@ public class LaboonCrypt {
 
     }
 
+    /**
+     * Does the initial hashing and filling of the matrix
+     * @param prevHash the hash made from the user input string
+     * @param intMode the level of verbosity to use
+     * @return a filled matrix
+     */
     private static String[][] fillArrayAndCompressInput(String prevHash, int intMode) {
         String initVector = "1AB0";
         String[][] matrix = new String[12][12];
@@ -96,6 +112,10 @@ public class LaboonCrypt {
         return matrix;
     }
 
+    /**
+     * Given a 2D Array, print out the contents
+     * @param matrix the array to print
+     */
     private static void printArray(String[][] matrix) {
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix[i].length; j++) {
@@ -105,6 +125,14 @@ public class LaboonCrypt {
         }
     }
 
+    /**
+     * Takes the verbosity level and assigns it an integer
+     * -verbose         -> 1
+     * -veryverbose     -> 2
+     * -ultraverbose    -> 3
+     * @param mode the verbosity level
+     * @return an integer 1-3 representing the verbosity level, or -1 if not verbose
+     */
     private static int generateModeInt(String mode) {
         int toReturn = -1;
         switch(mode.toLowerCase()) {
@@ -121,6 +149,14 @@ public class LaboonCrypt {
         return toReturn;
     }
 
+    /**
+     * This hashes certain indexes depending on the ascii values of each 
+     * character of the initial user string
+     * @param matrix the matrix to be editted
+     * @param input the initial string input of the user
+     * @param intMode the verbosity level in integer form
+     * @return a new array with the correct indexes editted
+     */
     private static String[][] rereadMatrixAndReHash(String[][] matrix, String input, int intMode) {
         char[] inputChars = input.toCharArray();
         String initVector = "1AB0";
@@ -154,6 +190,14 @@ public class LaboonCrypt {
         return matrix;
     }
 
+    /**
+     * This concatenates the entire 2D array into a string, hashes the string
+     * and returns the result as a string to the user
+     * @param matrix the matrix to be concatenated
+     * @param input initial user input
+     * @param intMode the verbosity level in integer form
+     * @return the hashed string of the entire matrix
+     */
     private static String concatAndHashMatrix(String[][] matrix, String input, int intMode) {
         String toHash = "";
         String prevHash = "";
